@@ -1,34 +1,37 @@
+import React, { Component } from "react";
+import { Provider } from "react-redux";
+import setup from "./store/setup";
+import Routes from "./routes/Routes";
 
-import React, { Component } from 'react'
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
-import { createLogger } from 'redux-logger'
-import Routes from './routes/Routes'
-import thunkMiddleware from 'redux-thunk'
-
-import appReducer from './reducers/AppReducer'
-global.isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent
-console.disableYellowBox = true
-
-const logger = createLogger()
+global.isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent;
+console.disableYellowBox = true;
 
 export default class App extends Component {
-  configureStore (initialState) {
-    const enhancer = compose(
-      applyMiddleware(
-        thunkMiddleware,
-        logger
-      )
-    )
-    return createStore(appReducer, initialState, enhancer)
+  constructor() {
+    super();
+    this.state = {
+      isLoading: true,
+      store: null
+    };
   }
 
-  render () {
-    const store = this.configureStore({})
+  componentDidMount() {
+    setup(store => {
+      this.setState({
+        isLoading: false,
+        store
+      });
+    });
+  }
+
+  render() {
+    if (this.state.isLoading) {
+      return null;
+    }
     return (
-      <Provider store={store}>
+      <Provider store={this.state.store}>
         <Routes />
       </Provider>
-    )
+    );
   }
 }
