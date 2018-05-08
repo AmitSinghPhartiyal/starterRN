@@ -1,3 +1,3 @@
-import loginReducer from "../reducers/auth/LoginReducer";
+import appState from "../reducers/auth/appState";
 
-export default ["loginReducer"];
+export default ["appState"];
