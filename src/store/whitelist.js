@@ -1,3 +1,3 @@
-import appState from "../reducers/auth/appState";
+import appState from "../reducers/appState";
 
 export default ["appState"];

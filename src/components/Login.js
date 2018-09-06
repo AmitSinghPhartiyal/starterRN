@@ -10,7 +10,7 @@ import {
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import { login } from "../actions/LoginAction";
-
+import { LoginButton, AccessToken, LoginManager } from "react-native-fbsdk";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +19,6 @@ class Login extends Component {
       password: "cityslicka"
     };
   }
-
   handleSubmit() {
     this.props.login();
   }
@@ -53,20 +52,35 @@ class Login extends Component {
           }}
           placeholder="password"
         />
-        {this.props.loginReducer.loading ? (
-          <TouchableOpacity style={{ margin: 10, alignItems: "center" }}>
-            <ActivityIndicator />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={{ margin: 10, alignItems: "center" }}
-            onPress={() => {
-              this.handleSubmit();
+        {this.props.loginReducer.loading
+          ? <TouchableOpacity style={{ margin: 10, alignItems: "center" }}>
+              <ActivityIndicator />
+            </TouchableOpacity>
+          : <TouchableOpacity
+              style={{ margin: 10, alignItems: "center" }}
+              onPress={() => {
+                this.handleSubmit();
+              }}
+            >
+              <Text style={{ margin: 10 }}>Login</Text>
+            </TouchableOpacity>}
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <LoginButton
+            publishPermissions={["publish_actions"]}
+            onLoginFinished={(error, result) => {
+              if (error) {
+                console.log("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                console.log("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(data => {
+                  console.log(data.accessToken.toString());
+                });
+              }
             }}
-          >
-            <Text style={{ margin: 10 }}>Login</Text>
-          </TouchableOpacity>
-        )}
+            onLogoutFinished={() => console.log("logout.")}
+          />
+        </View>
       </View>
     );
   }
@@ -81,7 +95,10 @@ const styles = StyleSheet.create({
 });
 
 function mapUser(state) {
-  return { loginReducer: state.loginReducer };
+  return {
+    loginReducer: state.loginReducer,
+    appState: state.appState
+  };
 }
 
 export default connect(mapUser, { login })(Login);

@@ -4,7 +4,7 @@ export function userList() {
     dispatch({ type: "LIST_GET_REQUEST" });
     //If we want to make use of access token while calling an API the we can get that from REDUX state directly
     // ${getstate().appstate.access_token
-    
+
     fetch(`${getstate().appConfig.serverUrl}api/users?page=2`)
       .then(response => response.json())
       .then(responseJson => {

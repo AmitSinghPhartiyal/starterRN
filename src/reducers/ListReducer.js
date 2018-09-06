@@ -1,7 +1,7 @@
 // @flow
 const INITIAL_STATE = {
   loading: false,
-  listData: {}
+  listData: []
 };
 
 function listReducer(state = INITIAL_STATE, action: any) {

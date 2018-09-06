@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
+  ActivityIndicator
 } from "react-native";
 import { signup } from "../actions/SignupAction";
 import { connect } from "react-redux";
@@ -24,41 +25,48 @@ class ListContainer extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
-          data={this.props.listData}
-          renderItem={({ item, index }) => (
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                borderWidth: 1,
-                borderColor: "#dadada"
-              }}
-              key={index}
-            >
-              <View style={{ flex: 0.7 }}>
-                <View style={{ flexDirection: "row" }}>
-                  <Text style={styles.item}>ID : </Text>
-                  <Text style={styles.item}>{item.id}</Text>
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                  <Text style={styles.item}>First Name : </Text>
-                  <Text style={styles.item}>{item.first_name}</Text>
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                  <Text style={styles.item}>Last Name : </Text>
-                  <Text style={styles.item}>{item.last_name}</Text>
-                </View>
-              </View>
-              <View style={{ flex: 0.3, justifyContent: "center" }}>
-                <Image
-                  source={{ uri: item.avatar }}
-                  style={{ height: 100, width: 100 }}
-                />
-              </View>
-            </View>
-          )}
-        />
+        {!this.props.loading
+          ? <FlatList
+              data={this.props.listData ? this.props.listData : []}
+              renderItem={({ item, index }) =>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    borderWidth: 1,
+                    borderColor: "#fff"
+                  }}
+                  key={index}
+                >
+                  <View style={{ flex: 0.7 }}>
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={styles.item}>ID : </Text>
+                      <Text style={styles.item}>
+                        {item.id}
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={styles.item}>First Name : </Text>
+                      <Text style={styles.item}>
+                        {item.first_name}
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={styles.item}>Last Name : </Text>
+                      <Text style={styles.item}>
+                        {item.last_name}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{ flex: 0.3, justifyContent: "center" }}>
+                    <Image
+                      source={{ uri: item.avatar }}
+                      style={{ height: 100, width: 100 }}
+                    />
+                  </View>
+                </View>}
+            />
+          : <ActivityIndicator />}
       </View>
     );
   }
@@ -67,7 +75,8 @@ class ListContainer extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 22
+    paddingTop: 22,
+    backgroundColor: "#fff"
   },
   item: {
     padding: 10,
@@ -78,7 +87,8 @@ const styles = StyleSheet.create({
 
 function mapUser(state) {
   return {
-    listData: state.listReducer.listData
+    listData: state.listReducer.listData,
+    loading: state.listReducer.loading
   };
 }
 

@@ -4,6 +4,26 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+	<dict>
+	<key>CFBundleURLSchemes</key>
+	<array>
+		<string>fb421476905047942</string>
+	</array>
+	</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>421476905047942</string>
+	<key>FacebookDisplayName</key>
+	<string>Test</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+	<string>fbapi</string>
+	<string>fb-messenger-api</string>
+	<string>fbauth2</string>
+	<string>fbshareextension</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>shyft</string>
 	<key>CFBundleExecutable</key>

@@ -5,7 +5,6 @@ import listReducer from "./ListReducer";
 import user from "./user";
 import appConfig from "./appConfig";
 import appState from "./appState";
-
 const appReducer = combineReducers({
   loginReducer,
   signupReducer,
